@@ -1,4 +1,3 @@
-import axios from "axios";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
@@ -23,16 +22,19 @@ export default function Login(){
 
     async function handleLogin(){
 
-        try{
-            const response = await axios.post("http://localhost:8080/auth/login",loginData);
-            console.log(response.data);
-            navigate("/");
             localStorage.setItem("isLogged", true);
-        }
-        catch (error){
-            localStorage.setItem("isLogged", false);
-            console.error('Request failed:', error);
-        }
+            navigate("/");
+
+        // try{
+        //     const response = await axios.post("http://localhost:8080/auth/login",loginData);
+        //     console.log(response.data);
+        //     navigate("/");
+        //     localStorage.setItem("isLogged", true);
+        // }
+        // catch (error){
+        //     localStorage.setItem("isLogged", false);
+        //     console.error('Request failed:', error);
+        // }
 
     };
 
