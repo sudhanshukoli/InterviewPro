@@ -12,3 +12,9 @@ export const STACKS = [
   { id: "aws", label: "AWS", icon: "☁️", color: "purple", desc: "EC2, S3, Lambda, RDS" },
   { id: "microservices", label: "Microservices", icon: "🔗", color: "green", desc: "Patterns, Communication, DDD" },
 ];
+
+export const DIFFICULTIES = [
+  { id: "junior", label: "Junior", color: "green", desc: "0–2 yrs" },
+  { id: "mid", label: "Mid-Level", color: "yellow", desc: "2–5 yrs" },
+  { id: "senior", label: "Senior", color: "red", desc: "5+ yrs" },
+];

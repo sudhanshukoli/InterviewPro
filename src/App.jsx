@@ -3,6 +3,7 @@ import './App.css';
 import About from './components/about/About';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
+import InterviewLevelSelection from './components/common/InterviewLevelSelection';
 import Contact from './components/contact/Contact';
 import Home from './components/home/Home';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -23,6 +24,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
+              <Route path='/interviewLevelSelection' element={<InterviewLevelSelection />} />
           </Route>
 
         </Routes>

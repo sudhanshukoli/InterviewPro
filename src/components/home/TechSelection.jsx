@@ -1,8 +1,7 @@
 import { motion } from "motion/react";
-
 import { STACKS } from "../../data/dashboardData/TechStack";
 
-export default function TechSelection(){
+export default function TechSelection({ setTheStack }){
 
     const borderColors = {
         red: "border-red-600",
@@ -25,9 +24,9 @@ export default function TechSelection(){
 
             <div className="grid grid-cols-4 gap-10 mb-10" >
             {STACKS.map((stack, i) => (
-                <motion.div initial={{y:20, opacity: 0}} animate={{ y:0, opacity: 1 }} transition={{  duration: 1, delay: i*0.2,  ease: "easeInOut"  }}
-                             key={stack.id} className={` bg-gray-800/30 border-t border-b ${borderColors[stack.color]} rounded-2xl p-10 `}
-                onClick={() => console.log("We have to create fun to start interview")}>
+                <motion.div initial={{y:20, opacity: 0}} animate={{ y:0, opacity: 1 }} transition={{  duration: 0.5, delay: i*0.2,  ease: "easeInOut"  }}
+                             key={stack.id} className={` bg-gray-800/30 border-t border-b cursor-pointer ${borderColors[stack.color]} rounded-2xl p-10 `}
+                onClick={() => setTheStack(stack)}>
 
                     <motion.div animate={{ y: [0, -10, 0] }} transition={{  duration: 2,  repeat: Infinity, delay: i*0.2,  ease: "easeInOut"  }}
                                 className="text-4xl mb-4 inline-block">{stack.icon}</motion.div>

@@ -23,7 +23,7 @@ export default function Dashboard(){
                 { label: "Avg Score", value: `8/10`, icon: "⭐", color: "orange" },
                 { label: "Tech Stacks", value: 5, icon: "🛠️", color: "lime" },
             ].map((stat, i) => (
-                <motion.div initial={{ y:40, opacity: 0}} transition={{duration: 0.8, delay: i*0.2,  ease: "easeInOut"}} animate={{y: 0, opacity: 1}}
+                <motion.div initial={{ y:40, opacity: 0}} transition={{duration: 0.5, delay: i*0.2,  ease: "easeInOut"}} animate={{y: 0, opacity: 1}}
                             key={i} className={` bg-gray-800/30 border-t border-b rounded-2xl ${borderColors[stat.color]} p-10 w-50 m-auto md:w-100`}>
                 <div style={{ fontSize: 28, marginBottom: 12 }}>{stat.icon}</div>
                 <div style={{ fontSize: 32, fontWeight: 800, color: stat.color }}>{stat.value}</div>
