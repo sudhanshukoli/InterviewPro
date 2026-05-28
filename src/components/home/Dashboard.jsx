@@ -3,7 +3,6 @@ import { motion } from "motion/react";
 export default function Dashboard(){
 
     return(<>
-        {/* <div style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 40px" }}> */}
         <div className="m-auto p-10"> 
             <motion.div initial={{opacity: 0}} transition={{duration: 1, ease: "easeInOut"}} animate={{ opacity: 1 }} className="text-left">
                 <h2 className="text-4xl font-bold mb-4 text-white">
