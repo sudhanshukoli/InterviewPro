@@ -14,7 +14,7 @@ export default function Home(){
                     <NavBar/>
                     <Dashboard/>
                     <TechSelection setTheStack={setTheStack}/>
-                </section>)}
+                </section>)}  
         </>)
 
 }

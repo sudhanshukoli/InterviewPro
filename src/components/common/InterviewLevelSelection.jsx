@@ -1,7 +1,12 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { motion } from "motion/react";
 import { useState } from "react";
 import { DIFFICULTIES } from "../../data/dashboardData/TechStack";
+import InterviewChat from "../interviewTab/InterviewChat";
+import Loader from "./Loader";
+import TopBar from "./TopBar";
 
 export default function InterviewLevelSelection({ stack, setTheStack }){
 
@@ -25,10 +30,38 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
 
     const [diff, setDiff] = useState(null);
     const [qCount, setQCount] = useState(5);
+    const [openChat, setOpenChat] = useState(false);
+    const [questions, setQuestions] = useState([]);
+    const [showLoader, setShowLoader] = useState(false)
 
+    async function startInterview(){
+
+        console.log("LOADING....");
+
+        setShowLoader(true);
+
+        const response = await axios.post("http://localhost:8080/api/chat/getQuestions",
+            {
+                techStack: stack.label,
+                difficulty: diff,
+                questions: qCount
+            });
+        console.log("COMPLETED....");
+         
+        setShowLoader(false);
+
+        setQuestions(response.data);    
+
+        setOpenChat(true);
+    }
+
+    
     return(<>
-        <section className="flex flex-col justify-center items-center w-screen h-screen text-white">
-            <div className="w-160 p-4">
+        {showLoader ? <Loader questionCount={qCount} difficulty={diff} stack={stack} />
+        
+        : !openChat ? 
+        (<section className="flex z-10 flex-col justify-center items-center w-screen h-screen text-white">
+            <motion.div initial={{y:10, opacity:0}} transition={{ duration: 0.5, ease: "easeInOut"}} animate={{y:0, opacity:1}} className="w-160 p-4">
                 <div className="mb-8 text-left">
                     <button onClick={() => setTheStack(null)} className="text-gray-500 cursor-pointer"><FontAwesomeIcon icon={faArrowLeft} /> Back to Dahsboard</button>
                 </div>
@@ -47,7 +80,8 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
                     <div className="grid grid-cols-3 gap-4">
                         {DIFFICULTIES.map(d => (
                         <div key={d.id}
-                            onClick={() => setDiff(d.id)} className={`cursor-pointer border-2 ${diff === d.id ? backgroundColors[d.color] : ""} ${diff === d.id ? borderColors[d.color] : "border-gray-700"} rounded-2xl px-10 py-5 text-center hover:-translate-y-1 ease-in-out transition-all`}>
+                            onClick={() => setDiff(d.id)} className={`cursor-pointer border-2 ${diff === d.id ? backgroundColors[d.color] : ""}
+                             ${diff === d.id ? borderColors[d.color] : "border-gray-700"} rounded-2xl px-10 py-5 text-center hover:-translate-y-1 ease-in-out transition-all`}>
                             <div className={`font-semibold text-xl ${diff === d.id ? textColors[d.color] : "text-white"} `}>{d.label}</div>
                             <div className="text-xs text-gray-500 mt-2" >{d.desc}</div>
                         </div>
@@ -61,17 +95,24 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
                     <div className="flex gap-4">
                         {[3, 5, 8, 10].map(n => (
                         <button key={n} onClick={() => setQCount(n)} className={`flex-1 p-4 ${qCount === n ? "bg-linear-to-r from-blue-950 to-blue-600" : ""}
-                            border ${qCount === n ? "border-0" : "border-gray-600"} rounded-2xl font-bold px-13 py-5 cursor-pointer text-xl`}>
+                            border ${qCount === n ? "border-0" : "border-gray-600"} rounded-2xl font-bold px-13 py-5 cursor-pointer text-xl hover:-translate-y-1 ease-in-out transition-all`}>
                             {n}
                         </button>
                         ))}
                     </div>
                 </div>
 
-                <button className={` ${diff ? "opacity-100" : "opacity-50"} text-white text-xl font-semibold w-full p-4 rounded-2xl ${diff ? "cursor-pointer" : "cursor-not-allowed"} ${diff ? "bg-linear-to-r from-blue-950 to-blue-600" : "bg-gray-800" }`} >
+                <button onClick={startInterview}
+                    className={` ${diff ? "opacity-100" : "opacity-50"} text-white text-xl font-semibold w-full p-4 rounded-2xl 
+                    ${diff ? "cursor-pointer" : "cursor-not-allowed"} ${diff ? "bg-linear-to-r from-blue-950 to-blue-600" : "bg-gray-800" }
+                    hover:-translate-y-1 ease-in-out transition-all`} >
                     Start Interview →
                 </button>
-            </div>
-        </section>
+            </motion.div>
+        </section>) : 
+        (<>
+            <TopBar setOpenChat={setOpenChat} stack={stack} difficulty={diff} questions={questions} />
+            <InterviewChat setOpenChat={setOpenChat} questions={questions} setTheStack={setTheStack} /> 
+        </>) }
     </>)
 }
