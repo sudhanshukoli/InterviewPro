@@ -1,9 +1,13 @@
+import axios from "axios";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import loginBg from "../../data/images/loginbg.png";
 
 export default function Login(){
+    
+    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+
 
     const navigate = useNavigate();
 
@@ -22,19 +26,20 @@ export default function Login(){
 
     async function handleLogin(){
 
-            localStorage.setItem("isLogged", true);
+            // localStorage.setItem("isLogged", true);
             navigate("/");
 
-        // try{
-        //     const response = await axios.post("http://localhost:8080/auth/login",loginData);
-        //     console.log(response.data);
-        //     navigate("/");
-        //     localStorage.setItem("isLogged", true);
-        // }
-        // catch (error){
-        //     localStorage.setItem("isLogged", false);
-        //     console.error('Request failed:', error);
-        // }
+        try{
+            // const response = await axios.post("http://localhost:8080/auth/login",loginData);
+            const response = await axios.post(`${deployedUrl}/auth/login`,loginData); // use for PROD 
+            console.log(response.data);
+            navigate("/");
+            localStorage.setItem("isLogged", true);
+        }
+        catch (error){
+            localStorage.setItem("isLogged", false);
+            console.error('Request failed:', error);
+        }
 
     };
 

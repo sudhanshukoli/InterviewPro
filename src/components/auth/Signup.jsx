@@ -6,6 +6,8 @@ import loginBg from "../../data/images/loginbg.png";
 
 export default function Signup(){
 
+    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+
     const inputClasses = "float-left pl-12 mb-10 p-4 bg-transparent border rounded-lg w-120 border-purple-950 border-opacity-700";
 
     const navigate = useNavigate();
@@ -37,7 +39,8 @@ export default function Signup(){
         }
 
         try{
-            const response = await axios.post("http://localhost:8080/auth/signup",signupData);
+            // const response = await axios.post("http://localhost:8080/auth/signup",signupData);
+            const response = await axios.post(`${deployedUrl}/auth/signup`,signupData); // use for PROD 
             console.log(response.data);
             navigate("/");
             localStorage.setItem("isLogged", true);
