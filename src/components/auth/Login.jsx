@@ -1,13 +1,15 @@
 import axios from "axios";
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { UserContext } from "../../context/UserContext";
 import loginBg from "../../data/images/loginbg.png";
 
 export default function Login(){
     
-    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    // const deployedUrl = "https://interviewprobackend-1.onrender.com";
 
+    const { setUserData } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -30,14 +32,15 @@ export default function Login(){
             navigate("/");
 
         try{
-            // const response = await axios.post("http://localhost:8080/auth/login",loginData);
-            const response = await axios.post(`${deployedUrl}/auth/login`,loginData); // use for PROD 
-            console.log(response.data);
+            const response = await axios.post("http://localhost:8080/auth/login",loginData);
+            // const response = await axios.post(`${deployedUrl}/auth/login`,loginData); // use for PROD 
             navigate("/");
             localStorage.setItem("isLogged", true);
+            setUserData(response.data);
         }
         catch (error){
-            localStorage.setItem("isLogged", false);
+            alert("Wrong credentials");
+            localStorage.removeItem("isLogged");
             console.error('Request failed:', error);
         }
 

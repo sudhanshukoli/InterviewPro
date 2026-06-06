@@ -1,12 +1,14 @@
 import axios from "axios";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { UserContext } from "../../context/UserContext";
 import loginBg from "../../data/images/loginbg.png";
 
 export default function Signup(){
 
-    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    // const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    const { setUserData } = useContext(UserContext);
 
     const inputClasses = "float-left pl-12 mb-10 p-4 bg-transparent border rounded-lg w-120 border-purple-950 border-opacity-700";
 
@@ -39,11 +41,11 @@ export default function Signup(){
         }
 
         try{
-            // const response = await axios.post("http://localhost:8080/auth/signup",signupData);
-            const response = await axios.post(`${deployedUrl}/auth/signup`,signupData); // use for PROD 
-            console.log(response.data);
-            navigate("/");
+            const response = await axios.post("http://localhost:8080/auth/signup",signupData);
+            // const response = await axios.post(`${deployedUrl}/auth/signup`,signupData); // use for PROD 
+            setUserData(response.data);
             localStorage.setItem("isLogged", true);
+            navigate("/");
         }
         catch (error){
             localStorage.setItem("isLogged", false);

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function InterviewResult({ totalScore, questions, setOpenChat, setTheStack }) {
 
-    const avg = Math.round(totalScore / questions.length);
+    const avg = Math.round(totalScore/questions.length);
     const grade = avg >= 9 ? "S" : avg >= 7 ? "A" : avg >= 5 ? "B" : avg >= 3 ? "C" : "D";
     const gradeColor = { S: "text-green-500", A: "text-blue-500", B: "text-yellow-500", C: "text-orange-500", D: "text-red-500" }[grade];
     const msg = { S: "Outstanding! You're interview-ready! 🚀", A: "Excellent performance! 🎉", B: "Good effort, keep refining! 💪", C: "Keep practicing! 📚", D: "More study needed. Don't give up! 🔄" }[grade];

@@ -1,6 +1,10 @@
 import { motion } from "motion/react";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 export default function Dashboard(){
+
+    const { userData } = useContext(UserContext);
 
     const borderColors = {
         orange: "border-orange-500",
@@ -12,7 +16,7 @@ export default function Dashboard(){
         <div className="m-auto p-10"> 
             <motion.div initial={{opacity: 0}} transition={{duration: 1, ease: "easeInOut"}} animate={{ opacity: 1 }} className="text-left">
                 <h2 className="text-4xl font-bold mb-4 text-white">
-                    Welcome back, <span className="bg-linear-to-r from-blue-700 to-blue-200 bg-clip-text text-transparent">Sudhanshu</span> 👋
+                    Welcome back, <span className="bg-linear-to-r from-blue-700 to-blue-200 bg-clip-text text-transparent">{userData.name}</span> 👋
                 </h2>
                 <p className="text-gray-600 font-mono">Ready to ace your next tech interview?</p>
             </motion.div>

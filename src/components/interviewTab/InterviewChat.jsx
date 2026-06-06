@@ -10,7 +10,7 @@ import InterviewResult from "./InterviewResult";
 
 export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
 
-    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    // const deployedUrl = "https://interviewprobackend-1.onrender.com";
 
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
     const [openFeedback, setOPenFeedback] = useState(false);
     const [openResult, setOpenResult] = useState(false);
     const [aiFeedback, setAiFeedback] = useState({
-      score: "",
+      score: 0,
       feedback: ""
     });
     const [totalScore, setTotalScore] = useState(0);
@@ -31,14 +31,16 @@ export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
         answer: answer
     };
 
+    console.log("This is total score " + totalScore);
+
     async function submitAnswer (){
       setEvaluating(true);
       
       console.log("Submitting answer");
 
       try{
-        // const response = await axios.post("http://localhost:8080/api/chat/getFeedback", sendData);
-          const response = await axios.post(`${deployedUrl}/api/chat/getFeedback`, sendData);
+        const response = await axios.post("http://localhost:8080/api/chat/getFeedback", sendData);
+          // const response = await axios.post(`${deployedUrl}/api/chat/getFeedback`, sendData);
 
           setAiFeedback(response.data);
           setOPenFeedback(true);
@@ -49,12 +51,11 @@ export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
         console.log(e);
         navigate("/error");
       }
-
-      setTotalScore(prev => prev+aiFeedback.score);
-
+      
     }
 
     function nextQuestion(){
+      setTotalScore(prev => prev + Number(aiFeedback.score));
       setOPenFeedback(false);
       setAnswer("");
       if(current >= questions.length){
