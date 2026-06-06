@@ -7,7 +7,7 @@ import loginBg from "../../data/images/loginbg.png";
 
 export default function Login(){
     
-    // const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    const deployedUrl = "https://interviewprobackend-1.onrender.com";
 
     const { setUserData } = useContext(UserContext);
 
@@ -32,8 +32,8 @@ export default function Login(){
             navigate("/");
 
         try{
-            const response = await axios.post("http://localhost:8080/auth/login",loginData);
-            // const response = await axios.post(`${deployedUrl}/auth/login`,loginData); // use for PROD 
+            // const response = await axios.post("http://localhost:8080/auth/login",loginData);
+            const response = await axios.post(`${deployedUrl}/auth/login`,loginData); // use for PROD 
             navigate("/");
             localStorage.setItem("isLogged", true);
             setUserData(response.data);

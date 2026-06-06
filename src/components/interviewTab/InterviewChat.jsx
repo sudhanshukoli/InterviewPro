@@ -10,7 +10,7 @@ import InterviewResult from "./InterviewResult";
 
 export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
 
-    // const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    const deployedUrl = "https://interviewprobackend-1.onrender.com";
 
     const navigate = useNavigate();
 
@@ -39,8 +39,8 @@ export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
       console.log("Submitting answer");
 
       try{
-        const response = await axios.post("http://localhost:8080/api/chat/getFeedback", sendData);
-          // const response = await axios.post(`${deployedUrl}/api/chat/getFeedback`, sendData);
+        // const response = await axios.post("http://localhost:8080/api/chat/getFeedback", sendData);
+          const response = await axios.post(`${deployedUrl}/api/chat/getFeedback`, sendData);
 
           setAiFeedback(response.data);
           setOPenFeedback(true);
