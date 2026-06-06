@@ -10,56 +10,59 @@ import InterviewResult from "./InterviewResult";
 
 export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
 
+    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+
     const navigate = useNavigate();
 
-      const [current, setCurrent] = useState(0);
-      const textRef = useRef(null);
-      const [answer, setAnswer] = useState("");
-      const [evaluating, setEvaluating] = useState(false);
-      const [openFeedback, setOPenFeedback] = useState(false);
-      const [openResult, setOpenResult] = useState(false);
-      const [aiFeedback, setAiFeedback] = useState({
-        score: "",
-        feedback: ""
-      });
-      const [totalScore, setTotalScore] = useState(0);
+    const [current, setCurrent] = useState(0);
+    const textRef = useRef(null);
+    const [answer, setAnswer] = useState("");
+    const [evaluating, setEvaluating] = useState(false);
+    const [openFeedback, setOPenFeedback] = useState(false);
+    const [openResult, setOpenResult] = useState(false);
+    const [aiFeedback, setAiFeedback] = useState({
+      score: "",
+      feedback: ""
+    });
+    const [totalScore, setTotalScore] = useState(0);
+    
+    const sendData = {
+        question: questions[current],
+        answer: answer
+    };
+
+    async function submitAnswer (){
+      setEvaluating(true);
       
-      const sendData = {
-          question: questions[current],
-          answer: answer
-      };
+      console.log("Submitting answer");
 
-      async function submitAnswer (){
-        setEvaluating(true);
-        
-        console.log("Submitting answer");
+      try{
+        // const response = await axios.post("http://localhost:8080/api/chat/getFeedback", sendData);
+          const response = await axios.post(`${deployedUrl}/api/chat/getFeedback`, sendData);
 
-        try{
-          const response = await axios.post("http://localhost:8080/api/chat/getFeedback", sendData);
-  
-            setAiFeedback(response.data);
-            setOPenFeedback(true);
-            setEvaluating(false);
-            setCurrent(prev => prev+1);
-        }
-        catch (e){
-          console.log(e);
-          navigate("/error");
-        }
-
-        setTotalScore(prev => prev+aiFeedback.score);
-
+          setAiFeedback(response.data);
+          setOPenFeedback(true);
+          setEvaluating(false);
+          setCurrent(prev => prev+1);
+      }
+      catch (e){
+        console.log(e);
+        navigate("/error");
       }
 
-      function nextQuestion(){
-        setOPenFeedback(false);
-        setAnswer("");
-        if(current >= questions.length){
-          setOpenResult(true);
-        }
-      }
+      setTotalScore(prev => prev+aiFeedback.score);
 
-      const progress = ((current) / questions.length) * 100;
+    }
+
+    function nextQuestion(){
+      setOPenFeedback(false);
+      setAnswer("");
+      if(current >= questions.length){
+        setOpenResult(true);
+      }
+    }
+
+    const progress = ((current) / questions.length) * 100;
 
     return(<>
       {openResult && (<InterviewResult totalScore={totalScore} questions={questions} setOpenChat={setOpenChat} setTheStack={setTheStack} />)}

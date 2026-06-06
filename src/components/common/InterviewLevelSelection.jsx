@@ -10,6 +10,8 @@ import TopBar from "./TopBar";
 
 export default function InterviewLevelSelection({ stack, setTheStack }){
 
+    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+
     const borderColors = {
         red: "border-red-600",
         yellow: "border-yellow-600",
@@ -40,12 +42,20 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
 
         setShowLoader(true);
 
-        const response = await axios.post("http://localhost:8080/api/chat/getQuestions",
+        // const response = await axios.post("http://localhost:8080/api/chat/getQuestions",
+        //     {
+        //         techStack: stack.label,
+        //         difficulty: diff,
+        //         questions: qCount
+        //     });
+
+        const response = await axios.post(`${deployedUrl}/api/chat/getQuestions`,
             {
                 techStack: stack.label,
                 difficulty: diff,
                 questions: qCount
-            });
+            });    
+
         console.log("COMPLETED....");
          
         setShowLoader(false);
