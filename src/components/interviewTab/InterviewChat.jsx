@@ -71,23 +71,22 @@ export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
       {openFeedback && (<Feedback score={aiFeedback.score} feedback={aiFeedback.feedback} answer={answer} nextQuestion={nextQuestion} questions={questions} current={current} />)}
 
       { (!openFeedback && !openResult) && (<>
-      {/* Progress */}
+      
       <div style={{ height: 3, background: "#21262D" }}>
         <div style={{ height: "100%", background: "linear-gradient(90deg, #6366F1, #8B5CF6)", width: `${progress}%`, transition: "width 0.5s ease", borderRadius: "0 2px 2px 0" }} />
       </div>
 
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "48px 32px" }}>
             <div style={{ animation: "slide-up 0.4s ease" }}>
-                {/* Question bubble */}
-                <div className="flex gap-4 mb-8">
-                <div className="w-10 h-10 rounded-full items-center justify-center flex bg-linear-to-r from-blue-400 to-blue-900 shrink-0 text-xl">🤖</div>
-                <div className="font-mono flex-1 bg-gray-800/40 border border-gray-600 rounded-2xl rounded-tl-none p-6 text-left">
-                    <p className="text-gray-400 text-sm font-semibold uppercase mb-2">Question {current + 1}</p>
-                    <p className="text-white font-semibold">{questions[current]}</p>
-                </div>
-                </div>
 
-                {/* Answer area */}
+                <div className="flex gap-4 mb-8">
+                  <div className="w-10 h-10 rounded-full items-center justify-center flex bg-linear-to-r from-blue-400 to-blue-900 shrink-0 text-xl">🤖</div>
+                  <div className="font-mono flex-1 bg-gray-800/40 border border-gray-600 rounded-2xl rounded-tl-none p-6 text-left">
+                      <p className="text-gray-400 text-sm font-semibold uppercase mb-2">Question {current + 1}</p>
+                      <p className="text-white font-semibold">{questions[current]}</p>
+                  </div>
+                </div>
+              
                 <div>
                   <label className="text-left" style={{ fontSize: 13, color: "#8B949E", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.5px", display: "block", marginBottom: 12 }}>Your Answer</label>
                   <textarea className="answer-area" ref={textRef} value={answer} onChange={e => setAnswer(e.target.value)} placeholder="Type your answer here... Be as detailed as possible for a higher score."
