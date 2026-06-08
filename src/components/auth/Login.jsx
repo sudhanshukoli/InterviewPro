@@ -1,9 +1,10 @@
+import { faBrain } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { motion } from "motion/react";
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { UserContext } from "../../context/UserContext";
-import loginBg from "../../data/images/loginbg.png";
 
 export default function Login(){
     
@@ -18,6 +19,12 @@ export default function Login(){
         password: ""
     })
 
+    const [loginClicked, setLoginClicked] = useState(false);
+
+    const [animateOut, setAnimateOut] = useState(false);
+
+    const isDisabled = (!loginData.username.trim() || !loginData.password.trim());
+
     function handleChange(e){
 
         setLoginData({
@@ -29,7 +36,11 @@ export default function Login(){
     async function handleLogin(){
 
             // localStorage.setItem("isLogged", true);
-            navigate("/");
+            // navigate("/");
+
+            setLoginClicked(true);
+
+            console.log("LOGIN CLICKED");
 
         try{
             // const response = await axios.post("http://localhost:8080/auth/login",loginData);
@@ -39,12 +50,19 @@ export default function Login(){
             setUserData(response.data);
         }
         catch (error){
+            setLoginClicked(false);
             alert("Wrong credentials");
             localStorage.removeItem("isLogged");
             console.error('Request failed:', error);
         }
 
     };
+
+    const handleSignup = () => {
+            if (animateOut) {
+            navigate("/signup");
+        }
+    }
 
     useEffect(() => {
         localStorage.removeItem("isLogged");
@@ -58,21 +76,42 @@ export default function Login(){
     }
 
     return(<>
-        <section className="flex items-center justify-end bg-cover bg-linear-to-r from-rose-300 to-white w-full h-screen overflow-hidden shadow-xl" style={{backgroundImage: `url(${loginBg})`}}>
-            <motion.div initial={{x:800}} transition={{duration: 0.5, ease:"easeInOut"}} animate={{x:0}} className="m-8 border rounded-2xl items-center  w-140 h-170 flex flex-col bg-white/20  border-white/20 shadow-2xl backdrop-blur-md ">
-                <h1 className="text-4xl py-8 font-mono">LogIn</h1>
+        <section className="text-white flex items-center justify-center bg-cover bg-linear-to-b from-blue-900/30 to-black w-full h-screen overflow-hidden shadow-xl">
+            <motion.div initial={{ y:  animateOut ? 0 : 800 }} transition={{duration: 0.5, ease:"easeInOut"}} animate={{ y: animateOut ? 800 : 0 }}
+                        onAnimationComplete={ handleSignup }
+                        className="m-8 border rounded-2xl items-center  w-140 h-170 flex flex-col bg-white/5  border-white/20 shadow-2xl backdrop-blur-md ">
+                
+                <div className="flex">
+                    <div className="p-8 self-start">
+                        <p className="text-md text-left text-gray-400 ">Login your account</p>
+                        <h1 className="text-4xl font-bold ">Welcome Back!</h1>
+                        <p className="text-md text-left text-gray-400">Enter your username and password</p>
+                    </div>
+
+                    <div className="flex items-center">
+                        <FontAwesomeIcon className="text-2xl text-blue-500" icon={faBrain} /> 
+                        <h1 className="text-xl font-semibold text-transparent sm:text-2xl md:text-3xl  bg-linear-to-r from-blue-400 via-white to-blue-700 bg-clip-text"> InterviewPro</h1>
+                    </div>
+                </div>    
 
                 <div className="flex flex-col items-center justify-center">
-                    <label htmlFor="username" className="self-start text-2xl mb-2 font-mono">Username</label>
-                    <input className="float-left pl-12 mb-10 p-4 bg-transparent border rounded-lg w-120 border-purple-950 border-opacity-700" onChange={handleChange} value={loginData.username} type="text" name="username" placeholder="username" />
+                    <label htmlFor="username" className="self-start text-xl mb-2 text-gray-400">Username</label>
+                    <input className="float-left pl-12 mb-4 p-4 bg-transparent border rounded-2xl w-120 border-gray-400 border-opacity-700" 
+                            onChange={handleChange} value={loginData.username} type="text" name="username" placeholder="Enter your username" />
 
-                    <label htmlFor="password" className="self-start text-2xl mb-2 font-mono">Password</label>
-                    <input onKeyDown={noSpace}  className="float-left pl-12 mb-10 p-4 bg-transparent border rounded-lg w-120 border-purple-950 border-opacity-700" onChange={handleChange} value={loginData.password} type="password" name="password" placeholder="password" />
+                    <label htmlFor="password" className="self-start text-xl mb-2 text-gray-400">Password</label>
+                    <input onKeyDown={noSpace}  className="float-left pl-12 mb-10 p-4 bg-transparent border rounded-2xl w-120 border-gray-400 border-opacity-700"
+                            onChange={handleChange} value={loginData.password} type="password" name="password" placeholder="Enter your password" />
 
-                    <button className="p-3 font-semibold cursor-pointer text-white w-120 bg-blue-900 border border-blue-700 from-blue-950 to-blue-500 hover:bg-linear-to-tr font-railway rounded-xl" onClick={handleLogin} >Login</button>
+                    <button disabled={isDisabled} className={`p-3 font-semibold ${isDisabled ? "cursor-not-allowed bg-gray-800" : "cursor-pointer bg-blue-900 from-blue-950 to-blue-500 hover:bg-linear-to-tr" } text-white w-120 rounded-2xl`} 
+                            onClick={handleLogin} >{loginClicked ? "Checking Creds...." : "Login"}</button>
                 </div>
 
-                <h1 className="text-2xl py-8 font-mono">New here?<Link className="underline" to="/signup" >Register</Link></h1>
+                <h1 className="text-xl text-gray-400 py-8">New here ? <button onClick={() => setAnimateOut(true)} className="underline cursor-pointer hover:text-white" >Register</button></h1>
+
+                <hr className="w-[50vh] my-2 border-0 h-0.5 bg-blue-800" />
+
+                <p className="p-4"> <i className="font-semibold">Welcome back!</i> The dedication you are showing right now is exactly what will set you apart from every other candidate.</p>
             </motion.div>
         </section>
     </>)
