@@ -1,16 +1,16 @@
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Feedback from "./Feedback";
 import InterviewResult from "./InterviewResult";
+import useApi from "../../hooks/useApi";
 
-export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
+export default function InterviewChat ({ questions, setOpenChat, setTheStack, stack }){
 
-    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    const { post } = useApi();
 
     const navigate = useNavigate();
 
@@ -39,10 +39,8 @@ export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
       console.log("Submitting answer");
 
       try{
-        // const response = await axios.post("http://localhost:8080/api/chat/getFeedback", sendData);
-          const response = await axios.post(`${deployedUrl}/api/chat/getFeedback`, sendData);
-
-          setAiFeedback(response.data);
+        const aiFeedback = await post("/api/chat/getFeedback", sendData);
+          setAiFeedback(aiFeedback);
           setOPenFeedback(true);
           setEvaluating(false);
           setCurrent(prev => prev+1);
@@ -66,7 +64,7 @@ export default function InterviewChat ({ questions, setOpenChat, setTheStack }){
     const progress = ((current) / questions.length) * 100;
 
     return(<>
-      {openResult && (<InterviewResult totalScore={totalScore} questions={questions} setOpenChat={setOpenChat} setTheStack={setTheStack} />)}
+      {openResult && (<InterviewResult totalScore={totalScore} questions={questions} setOpenChat={setOpenChat} setTheStack={setTheStack} stack={stack} />)}
 
       {openFeedback && (<Feedback score={aiFeedback.score} feedback={aiFeedback.feedback} answer={answer} nextQuestion={nextQuestion} questions={questions} current={current} />)}
 

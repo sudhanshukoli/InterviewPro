@@ -1,16 +1,17 @@
 import { faBrain, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { motion } from "motion/react";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { UserContext } from "../../context/UserContext";
 import bgLogin from "../../data/images/bgLogin.jpg";
+import useApi from "../../hooks/useApi";
 
 export default function Signup(){
 
-    const deployedUrl = "https://interviewprobackend-1.onrender.com";
-    const { setUserData } = useContext(UserContext);
+     const { post } = useApi();
+
+    const { setUserData, userData } = useContext(UserContext);
 
     const inputClasses = "float-left pl-12 mb-5 md:mb-4 p-2 md:p-4 bg-transparent border rounded-2xl w-full md:w-120 border-gray-400 border-opacity-700";
     const labelClasses = "self-start text-sm md:text-xl mb-2 text-gray-400";
@@ -38,16 +39,14 @@ export default function Signup(){
 
     async function checkUsername(){
         try{
-            // const response = await axios.post(`http://localhost:8080/auth/checkUsername?username=${signupData.username}`);
-            const response = await axios.post(`${deployedUrl}/auth/checkUsername?username=${signupData.username}`); // use for PROD 
-            console.log(response.data);
+            const availableUsername = await post(`/auth/checkUsername?username=${signupData.username}`);
+            console.log(availableUsername);
             if(signupData.username != ""){
-                setAvailableUsername(response.data);
+                setAvailableUsername(availableUsername);
             } else {
                 setAvailableUsername(null);
-            }    
-        }
-        catch (error){
+            }  
+        } catch (error){
             console.error('Request failed:', error);
         }
     }
@@ -68,18 +67,27 @@ export default function Signup(){
         }
 
         try{
-            const response = await axios.post("http://localhost:8080/auth/signup",signupData);
-            // const response = await axios.post(`${deployedUrl}/auth/signup`,signupData); // use for PROD 
-            setUserData(response.data);
+            const theUserData = await post("/auth/signup", signupData);
+            setUserData(theUserData);
             localStorage.setItem("isLogged", true);
             navigate("/");
-        }
-        catch (error){
-            localStorage.setItem("isLogged", false);
+        } catch (error){
+            localStorage.removeItem("isLogged");
             console.error('Request failed:', error);
         }
-
     };
+
+    if(localStorage.getItem("isLogged")){
+        setAllItems();
+    }
+
+    function setAllItems(){
+        console.log(userData.name + "- this is user name");
+        console.log(userData.id + "- this is user name");
+        localStorage.setItem("userFirstName", userData.name);
+        localStorage.setItem("userId", userData.id);
+
+    }
 
     const handleLogin = () => {
             if (animateOut) {

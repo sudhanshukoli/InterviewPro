@@ -9,6 +9,8 @@ export default function NavBar(){
 
     function handleLogout(){
         localStorage.removeItem("isLogged");
+        localStorage.removeItem("userFirstName");
+        localStorage.removeItem("userId");
         navigate("/login");
     }
 

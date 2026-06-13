@@ -1,17 +1,17 @@
 import { faBrain } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { motion } from "motion/react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { UserContext } from "../../context/UserContext";
 import bgLogin from "../../data/images/bgLogin.jpg";
+import useApi from "../../hooks/useApi";
 
 export default function Login(){
-    
-    const deployedUrl = "https://interviewprobackend-1.onrender.com";
 
-    const { setUserData } = useContext(UserContext);
+    const { post } = useApi();
+
+    const { setUserData, userData } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -34,30 +34,37 @@ export default function Login(){
 
     };
 
+
     async function handleLogin(){
-
-            // localStorage.setItem("isLogged", true);
-            // navigate("/");
-
-            setLoginClicked(true);
-
-            console.log("LOGIN CLICKED");
+        
+        setLoginClicked(true);
 
         try{
-            // const response = await axios.post("http://localhost:8080/auth/login",loginData);
-            const response = await axios.post(`${deployedUrl}/auth/login`,loginData); // use for PROD 
+            const theUserData = await post("/auth/login", loginData);
             navigate("/");
             localStorage.setItem("isLogged", true);
-            setUserData(response.data);
-        }
-        catch (error){
+            setUserData(theUserData);
+        } catch (error){
             setLoginClicked(false);
             alert("Wrong credentials");
             localStorage.removeItem("isLogged");
             console.error('Request failed:', error);
         }
-
+        
     };
+    
+    if(localStorage.getItem("isLogged")){
+        setAllItems();
+    }
+
+    function setAllItems(){
+        console.log(userData.name + "- this is user name");
+        console.log(userData.id + "- this is user name");
+        localStorage.setItem("userFirstName", userData.name);
+        localStorage.setItem("userId", userData.id);
+
+    }
+
 
     const handleSignup = () => {
             if (animateOut) {

@@ -1,16 +1,16 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { DIFFICULTIES } from "../../data/dashboardData/TechStack";
+import useApi from "../../hooks/useApi";
 import InterviewChat from "../interviewTab/InterviewChat";
 import Loader from "./Loader";
 import TopBar from "./TopBar";
 
 export default function InterviewLevelSelection({ stack, setTheStack }){
 
-    const deployedUrl = "https://interviewprobackend-1.onrender.com";
+    const { post } = useApi();
 
     const borderColors = {
         red: "border-red-600",
@@ -38,29 +38,18 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
 
     async function startInterview(){
 
-        console.log("LOADING....");
-
-        setShowLoader(true);
-
-        // const response = await axios.post("http://localhost:8080/api/chat/getQuestions",
-        //     {
-        //         techStack: stack.label,
-        //         difficulty: diff,
-        //         questions: qCount
-        //     });
-
-        const response = await axios.post(`${deployedUrl}/api/chat/getQuestions`,
-            {
-                techStack: stack.label,
-                difficulty: diff,
-                questions: qCount
-            });    
-
-        console.log("COMPLETED....");
+        setShowLoader(true);        
+        
+        const allQuestions = await post("/api/chat/getQuestions",
+                {
+                    techStack: stack.label,
+                    difficulty: diff,
+                    questions: qCount
+                });
          
         setShowLoader(false);
 
-        setQuestions(response.data);    
+        setQuestions(allQuestions);    
 
         setOpenChat(true);
     }
@@ -122,7 +111,7 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
         </section>) : 
         (<>
             <TopBar setOpenChat={setOpenChat} stack={stack} difficulty={diff} questions={questions} />
-            <InterviewChat setOpenChat={setOpenChat} questions={questions} setTheStack={setTheStack} /> 
+            <InterviewChat setOpenChat={setOpenChat} questions={questions} setTheStack={setTheStack} stack={stack} /> 
         </>) }
     </>)
 }
