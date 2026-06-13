@@ -10,7 +10,7 @@ const useApi = () => {
             try{
                 const response = await axios.get(`${deployedUrl}${url}`);
                 console.log("WE ARE INSIDE GET HOOK ")
-                return response.data
+                return response.data;
             }
             catch (error){
                 console.log("API ERROR " + error);
@@ -22,7 +22,7 @@ const useApi = () => {
             try{
                 const response = await axios.post(`${deployedUrl}${url}`,payload);
                 console.log("WE ARE INSIDE POST HOOK ")
-                return response.data
+                return response.data;
             }
             catch (error){
                 console.log("API ERROR " + error);

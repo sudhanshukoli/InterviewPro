@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { UserContext } from "../../context/UserContext";
 import bgLogin from "../../data/images/bgLogin.jpg";
-import useApi from "../../hooks/useApi";
+import useApi from "../../hooks/useApi.js";
 
 export default function Login(){
 
@@ -41,9 +41,9 @@ export default function Login(){
 
         try{
             const theUserData = await post("/auth/login", loginData);
-            navigate("/");
-            localStorage.setItem("isLogged", true);
             setUserData(theUserData);
+            localStorage.setItem("isLogged", true);
+            navigate("/");
         } catch (error){
             setLoginClicked(false);
             alert("Wrong credentials");
@@ -58,11 +58,10 @@ export default function Login(){
     }
 
     function setAllItems(){
-        console.log(userData.name + "- this is user name");
-        console.log(userData.id + "- this is user name");
         localStorage.setItem("userFirstName", userData.name);
         localStorage.setItem("userId", userData.id);
-
+        console.log(userData.name + "- this is user name");
+        console.log(userData.id + "- this is user name");
     }
 
 
