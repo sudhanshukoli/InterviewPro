@@ -60,7 +60,7 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
         
         : !openChat ? 
         (<section className="flex z-10 flex-col justify-center items-center w-screen h-screen text-white">
-            <motion.div initial={{y:10, opacity:0}} transition={{ duration: 0.5, ease: "easeInOut"}} animate={{y:0, opacity:1}} className="w-160 p-4">
+            <motion.div initial={{y:10, opacity:0}} transition={{ duration: 0.5, ease: "easeInOut"}} animate={{y:0, opacity:1}} className=" w-[80%] md:w-160 p-4">
                 <div className="mb-8 text-left">
                     <button onClick={() => setTheStack(null)} className="text-gray-500 cursor-pointer"><FontAwesomeIcon icon={faArrowLeft} /> Back to Dahsboard</button>
                 </div>
@@ -68,33 +68,33 @@ export default function InterviewLevelSelection({ stack, setTheStack }){
                 
                 {/* <div style={{ textAlign: "center", marginBottom: 40 }}> */}
                 <div className="text-center mb-8">
-                    <div className="text-5xl mb-4">{stack.icon}</div>
-                    <h2 className="text-4xl font-bold tracking-tight">{stack.label} Interview</h2>
+                    <div className="text-3xl md:text-5xl mb-4">{stack.icon}</div>
+                    <h2 className="text-2xl md:text-4xl font-bold tracking-tight">{stack.label} Interview</h2>
                     <p className="text-gray-500 mt-2" >{stack.desc}</p>
                 </div>
 
                 {/* Difficulty */}
                 <div className="mb-8">
-                    <p className="text-sm text-gray-500 mb-6 font-bold uppercase text-left ">Experience Level</p>
+                    <p className="text-xs md:text-sm text-gray-500 mb-6 font-bold uppercase text-left ">Experience Level</p>
                     <div className="grid grid-cols-3 gap-4">
                         {DIFFICULTIES.map(d => (
                         <div key={d.id}
                             onClick={() => setDiff(d.id)} className={`cursor-pointer border-2 ${diff === d.id ? backgroundColors[d.color] : ""}
-                             ${diff === d.id ? borderColors[d.color] : "border-gray-700"} rounded-2xl px-10 py-5 text-center hover:-translate-y-1 ease-in-out transition-all`}>
-                            <div className={`font-semibold text-xl ${diff === d.id ? textColors[d.color] : "text-white"} `}>{d.label}</div>
+                             ${diff === d.id ? borderColors[d.color] : "border-gray-700"} rounded-2xl md:px-10 py-5 text-center hover:-translate-y-1 ease-in-out transition-all`}>
+                            <div className={`font-semibold text-sm md:text-xl ${diff === d.id ? textColors[d.color] : "text-white"} `}>{d.label}</div>
                             <div className="text-xs text-gray-500 mt-2" >{d.desc}</div>
                         </div>
                         ))}
                     </div>
                 </div>
 
-                {/* Questions */}
+                {/* Questions Below */}
                 <div className="mb-8" >
-                    <p className="text-sm text-gray-500 mb-6 font-bold uppercase text-left">Number of Questions</p>
+                    <p className="text-xs md:text-sm text-gray-500 mb-6 font-bold uppercase text-left">Number of Questions</p>
                     <div className="flex gap-4">
                         {[3, 5, 8, 10].map(n => (
                         <button key={n} onClick={() => setQCount(n)} className={`flex-1 p-4 ${qCount === n ? "bg-linear-to-r from-blue-950 to-blue-600" : ""}
-                            border ${qCount === n ? "border-0" : "border-gray-600"} rounded-2xl font-bold px-13 py-5 cursor-pointer text-xl hover:-translate-y-1 ease-in-out transition-all`}>
+                            border ${qCount === n ? "border-0" : "border-gray-600"} rounded-2xl font-bold md:px-13 py-5 cursor-pointer text-xl hover:-translate-y-1 ease-in-out transition-all`}>
                             {n}
                         </button>
                         ))}

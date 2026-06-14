@@ -6,7 +6,6 @@ export default function Feedback({ score, feedback, answer, nextQuestion, questi
             <motion.div initial={{y:10, opacity:0}} transition={{ duration: 0.5, ease: "easeInOut"}} animate={{y:0, opacity:1}} className="w-160 p-4 m-auto text-white">
                 {/* Score */}
                 <div className="text-white " style={{ textAlign: "center", marginBottom: 40 }}>
-                    {/* <div style={{ fontSize: 56, marginBottom: 12 }}> { score <= 5 ? <FontAwesomeIcon icon={faExclamation} /> : <FontAwesomeIcon icon={faCheck} /> }</div> */}
                     <div className={` ${score <=5 ? "text-red-500" : "text-green-500"}`} style={{ fontSize: 64, fontWeight: 800, lineHeight: 1 }}>{score}</div>
                     <div style={{ color: "#8B949E", fontSize: 16, marginTop: 4 }}>out of 10</div>
                 </div>

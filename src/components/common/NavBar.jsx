@@ -22,7 +22,7 @@ export default function NavBar(){
     
     <div className="sticky top-0 z-20 w-full px-3 font-mono">
 
-        <div className="relative border-b border-blue-700 rounded-2xl bg-black/40 shadow-[0_0_60px_rgba(59, 130, 246, 0.35)] p-5 backdrop-blur-md">
+        <div className="relative w-100 md:w-full border-b border-blue-700 rounded-2xl bg-black/40 shadow-[0_0_60px_rgba(59, 130, 246, 0.35)] p-5 backdrop-blur-md">
                             
             <div className="flex items-center justify-between">         
                 <div className="flex items-center">
