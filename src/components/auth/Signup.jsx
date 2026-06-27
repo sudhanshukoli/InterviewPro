@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "motion/react";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import { UserContext } from "../../context/UserContext";
+import UserContext from "../../context/TheUserContext.jsx";
 import bgLogin from "../../data/images/bgLogin.jpg";
 import useApi from "../../hooks/useApi";
 

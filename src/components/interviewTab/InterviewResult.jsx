@@ -1,7 +1,7 @@
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
+import UserContext from "../../context/TheUserContext.jsx";
 import useApi from "../../hooks/useApi";
 
 export default function InterviewResult({ totalScore, questions, setOpenChat, setTheStack, stack }) {

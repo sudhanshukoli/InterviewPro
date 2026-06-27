@@ -20,6 +20,7 @@ export default function Dashboard(){
 
     useEffect(() => {
          const getDashboardData = async () => {
+            console.log("THI IS USER ID " + localStorage.getItem("userId"));
 
             try{
                 const theDashData = await get(`/result/get-dashboard-data?userId=${localStorage.getItem("userId")}`);
