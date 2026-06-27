@@ -106,7 +106,7 @@ export default function Signup(){
         <section style={{backgroundImage:`linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${bgLogin})`}} className="text-white flex items-center justify-center bg-cover bg-linear-to-b from-blue-900/30 to-black w-full h-screen overflow-hidden shadow-xl">
             <motion.div initial={{ y:  animateOut ? 0 : -800, opacity: animateOut ? 1 : 0 }} transition={{duration: 0.5, ease:"easeInOut"}} animate={{ y: animateOut ? -800 : 0, opacity: animateOut ? 0 : 1 }}
                         onAnimationComplete={ handleLogin } className="m-8 border rounded-2xl items-center  w-[80%] h-[60%]  md:w-140 md:h-170 flex flex-col  border-white/20 shadow-2xl backdrop-blur-sm ">
-                <div className="flex p-4 ">
+                <div className="flex px-4 pt-4 ">
                     <div className="p-4 self-start">
                         <p className="text-sm md:text-md text-left text-gray-400 ">START FOR FREE</p>
                         <h1 className="text-xl md:text-2xl text-left font-bold ">Create a new account.</h1>
@@ -117,7 +117,9 @@ export default function Signup(){
                         <FontAwesomeIcon className="text-sm md:text-2xl text-blue-500" icon={faBrain} /> 
                         <h1 className="text-xl  font-semibold text-transparent sm:text-2xl md:text-3xl  bg-linear-to-r from-blue-400 via-white to-blue-700 bg-clip-text"> InterviewPro</h1>
                     </div>
-                </div>  
+                </div>
+
+                <p className="text-red-600 text-sm pb-4">NOTE: Sometimes login/signup may take time (upto 5min) <br /> as the servers are hosted on free services</p>  
 
                 <div className="flex flex-col items-center justify-center w-[80%]">
                     <label htmlFor="name" className={labelClasses}>Name</label>

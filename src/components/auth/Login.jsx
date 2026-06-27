@@ -87,7 +87,7 @@ export default function Login(){
                         onAnimationComplete={ handleSignup }
                         className="m-8 border rounded-2xl items-center w-[80%] h-[60%]  md:w-140 md:h-170 flex flex-col  border-white/30 shadow-2xl backdrop-blur-sm ">
                 
-                <div className="flex p-4 ">
+                <div className="flex px-4 pt-4">
                     <div className="p-4 self-start">
                         <p className=" text-sm md:text-md text-left text-gray-400 ">Login your account</p>
                         <h1 className=" text-xl md:text-4xl text-left font-bold ">Welcome Back!</h1>
@@ -99,6 +99,8 @@ export default function Login(){
                         <h1 className="text-xl font-semibold text-transparent md:text-3xl  bg-linear-to-r from-blue-400 via-white to-blue-700 bg-clip-text"> InterviewPro</h1>
                     </div>
                 </div>    
+
+                <p className="text-red-600 text-sm pb-4">NOTE: Sometimes login/signup may take time (upto 5min) <br /> as the servers are hosted on free services</p>
 
                 <div className="flex flex-col items-center justify-center w-[80%]">
                     <label htmlFor="username" className="self-start text-sm md:text-xl mb-2 text-gray-400">Username</label>
@@ -113,7 +115,7 @@ export default function Login(){
                             onClick={handleLogin} >{loginClicked ? "Checking Creds...." : "Login"}</button>
                 </div>
 
-                <h1 className="text-sm md:text-xl text-gray-400 py-2 md:py-8">New here ? <button onClick={() => setAnimateOut(true)} className="underline cursor-pointer hover:text-white" >Register</button></h1>
+                <h1 className="text-sm md:text-xl text-gray-400 py-2 md:py-4">New here ? <button onClick={() => setAnimateOut(true)} className="underline cursor-pointer hover:text-white" >Register</button></h1>
 
                 <hr className="w-[50%] my-2 border-0 h-0.5 bg-blue-800" />
 
