@@ -1,14 +1,17 @@
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../../context/TheUserContext.jsx";
 import useApi from "../../hooks/useApi";
+import CommonLoader from "../common/CommonLoader.jsx";
 
 export default function InterviewResult({ totalScore, questions, setOpenChat, setTheStack, stack }) {
 
     //avg - score (int)
     //stack - techtack (String)
     //today's date - interviewDate - new Date().toISOString().split("T")[0]
+
+    const [showCommonLoader, setShowCommonLoader] = useState(false);
 
     const { post } = useApi();
 
@@ -24,24 +27,31 @@ export default function InterviewResult({ totalScore, questions, setOpenChat, se
     
 
         console.log(" saving results");
-        console.log(stack.id, avg, userData.id);
+        console.log("This is it" + stack.id, avg, userData.id);
 
         const passDashboardData = async () => {
+            setShowCommonLoader(true);
             try{
                 const theResult = await post("/result/pass-result", {
                         techStack : stack.id,
                         score : avg,
                         userId : userData.id
                     });
-                console.log(theResult);
+                console.log("thhis are results",theResult);
 
             } catch(e){
                 console.log(e);
-            }    
+            }
+            
+            setShowCommonLoader(false);
+            setTheStack(null);
         };
 
     
     return(<>
+
+        {showCommonLoader ? <CommonLoader /> : 
+
         <div className="p-4 flex justify-center gap-10 items-center flex-col " style={{ minHeight: "100vh", background: "#0A0A0F", fontFamily: "'Sora', sans-serif", color: "#E6EDF3" }}>
             <section className="text-white font-mono">
                 <div className="text-4xl mb-4 font-bold" >Results!</div>
@@ -54,10 +64,12 @@ export default function InterviewResult({ totalScore, questions, setOpenChat, se
                 <button onClick={() => {setOpenChat(false); passDashboardData()}} style={{ padding: "16px", background: "linear-gradient(135deg, #6366F1, #8B5CF6)", border: "none", borderRadius: 14, color: "white", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "'Sora',sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
                     <FontAwesomeIcon icon={faArrowsRotate} /> Try Again
                 </button>
-                    <button onClick={()=> {setTheStack(null); passDashboardData()}} style={{ padding: "16px", background: "#0D1117", border: "1px solid #30363D", borderRadius: 14, color: "#E6EDF3", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "'Sora',sans-serif" }}>
+                    <button onClick={()=> {passDashboardData();}} style={{ padding: "16px", background: "#0D1117", border: "1px solid #30363D", borderRadius: 14, color: "#E6EDF3", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "'Sora',sans-serif" }}>
                     Back to Dashboard
                 </button>
             </div>
         </div>
+        
+        }
     </>)
 }

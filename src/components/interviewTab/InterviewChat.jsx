@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import useApi from "../../hooks/useApi";
 import Feedback from "./Feedback";
 import InterviewResult from "./InterviewResult";
-import useApi from "../../hooks/useApi";
 
 export default function InterviewChat ({ questions, setOpenChat, setTheStack, stack }){
 

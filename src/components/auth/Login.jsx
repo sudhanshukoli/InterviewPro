@@ -1,17 +1,14 @@
 import { faBrain } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "motion/react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import UserContext from "../../context/TheUserContext.jsx";
 import bgLogin from "../../data/images/bgLogin.jpg";
 import useApi from "../../hooks/useApi.js";
 
 export default function Login(){
 
     const { post } = useApi();
-
-    const { setUserData } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -42,7 +39,6 @@ export default function Login(){
         try{
             const theUserData = await post("/auth/login", loginData);
             console.log(theUserData);
-            setUserData(theUserData);
             localStorage.setItem("isLogged", true);
             setAllItems(theUserData);
             navigate("/");
@@ -58,8 +54,8 @@ export default function Login(){
     function setAllItems(setUserData){
         localStorage.setItem("userFirstName", setUserData.name);
         localStorage.setItem("userId", setUserData.id);
-        console.log(setUserData.name + "- this is user name");
-        console.log(setUserData.id + "- this is user ID");
+        localStorage.setItem("userRole", setUserData.role);
+        localStorage.setItem("username", setUserData.username);
     }
 
 
